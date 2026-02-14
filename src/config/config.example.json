@@ -1,0 +1,9 @@
+{
+    "token": "YOUR_BOT_TOKEN_HERE",
+    "mainServerId": "",
+    "supportChannels": [],
+    "nsfwFilter": {
+        "enabled": true,
+        "sensitivity": 0.8
+    }
+}
