@@ -1,15 +1,35 @@
+import { Events } from "discord.js";
 import { logger } from "../core/logger.js";
+import chalk from "chalk";
 
-export default async function interactionCreate(interaction) {
-    if (!interaction.isChatInputCommand()) return;
+export default {
+    name: Events.InteractionCreate,
+    async execute(client, interaction) {
+        if (!interaction.isChatInputCommand()) return;
 
-    const command = interaction.client.commands.get(interaction.commandName);
-    if (!command) return;
+        const command = client.commands.get(interaction.commandName);
 
-    try {
-        await command.execute(interaction);
-    } catch (err) {
-        logger.error("Command error:", err);
-        interaction.reply({ content: "Error executing command", ephemeral: true });
+        if (!command) {
+            logger.warn(
+                chalk.yellow(`⚠️ Unknown command: ${interaction.commandName}`)
+            );
+            return;
+        }
+
+        try {
+            await command.execute(interaction);
+        } catch (err) {
+            logger.error(
+                chalk.red(`❌ Error executing command: ${interaction.commandName}`)
+            );
+            console.error(err);
+
+            if (!interaction.replied && !interaction.deferred) {
+                await interaction.reply({
+                    content: "An error occurred while executing this command.",
+                    ephemeral: true
+                });
+            }
+        }
     }
-}
+};

@@ -1,6 +1,11 @@
 {
+  "name": "omecord",
+  "version": "0.1.0",
+  "description": "Omegle but in discord",
+  "type": "module",
   "dependencies": {
     "chalk": "^5.6.2",
-    "discord.js": "^14.25.1"
+    "discord.js": "^14.25.1",
+    "dotenv": "^17.3.1"
   }
 }
