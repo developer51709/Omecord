@@ -1,0 +1,29 @@
+omecord/
+│
+├── src/
+│   ├── bot/
+│   ├── matchmaking/
+│   ├── support/
+│   ├── moderation/
+│   ├── video/
+│   ├── utils/
+│   └── config/
+│
+├── docs/
+│   ├── architecture.md
+│   ├── contribution-guide.md
+│   ├── moderation-pipeline.md
+│   ├── support-system.md
+│   ├── video-system.md
+│   └── roadmap.md
+│
+├── .github/
+│   ├── ISSUE_TEMPLATE.md
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── workflows/
+│       └── ci.yml
+│
+├── .gitignore
+├── LICENSE
+├── README.md
+└── CODE_OF_CONDUCT.md
