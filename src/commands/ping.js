@@ -5,10 +5,13 @@ export default {
         .setName("ping")
         .setDescription("Replies with Pong!"),
 
-    async execute(interaction) {
-        const shard = interaction.client.shardId ?? "0";
-        const version = interaction.client.version;
+    prefix: "ping", // or "p"
 
-        await interaction.reply(`Pong! (Shard ${shard}, v${version})`);
+    async execute(interaction) {
+        await interaction.reply("Pong!");
+    },
+
+    async executePrefix(message, args) {
+        await message.reply("Pong!");
     }
 };

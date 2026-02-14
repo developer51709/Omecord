@@ -1,10 +1,10 @@
 import fs from "fs";
 import path from "path";
-import { logger } from "./logger.js";
 import chalk from "chalk";
+import { logger } from "./logger.js";
 
 // ─────────────────────────────────────────────
-// Load Events (modern Discord.js v14 format)
+// Load Events (Discord.js v14 format)
 // ─────────────────────────────────────────────
 
 export async function loadEvents(client) {
@@ -33,7 +33,7 @@ export async function loadEvents(client) {
 }
 
 // ─────────────────────────────────────────────
-// Load Commands (Slash commands, modern format)
+// Load Commands (Slash + Prefix Support)
 // ─────────────────────────────────────────────
 
 export async function loadCommands(client) {
@@ -44,15 +44,36 @@ export async function loadCommands(client) {
         const commandModule = await import(`../commands/${file}`);
         const command = commandModule.default;
 
-        if (!command || !command.data || !command.execute) {
+        if (!command) {
             logger.warn(
-                chalk.yellow(`⚠️ Skipping invalid command file: ${file}`)
+                chalk.yellow(`⚠️ Skipping empty command file: ${file}`)
             );
             continue;
         }
 
-        client.commands.set(command.data.name, command);
+        const hasSlash = command.data && command.execute;
+        const hasPrefix = command.prefix && command.executePrefix;
 
-        logger.info(chalk.green(`Loaded command: ${command.data.name}`));
+        // Reject files that have neither slash nor prefix handlers
+        if (!hasSlash && !hasPrefix) {
+            logger.warn(
+                chalk.yellow(
+                    `⚠️ Skipping invalid command file (no valid handlers): ${file}`
+                )
+            );
+            continue;
+        }
+
+        // Register slash command
+        if (hasSlash) {
+            client.commands.set(command.data.name, command);
+            logger.info(chalk.green(`Loaded slash command: ${command.data.name}`));
+        }
+
+        // Register prefix command
+        if (hasPrefix) {
+            client.commands.set(command.prefix.toLowerCase(), command);
+            logger.info(chalk.green(`Loaded prefix command: ${command.prefix}`));
+        }
     }
 }

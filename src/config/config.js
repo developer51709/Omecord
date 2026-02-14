@@ -25,6 +25,7 @@ if (fs.existsSync(configPath)) {
 const mergedConfig = {
     token: process.env.DISCORD_TOKEN || fileConfig.token,
     mainServerId: process.env.MAIN_SERVER_ID || fileConfig.mainServerId,
+    prefix: process.env.PREFIX || fileConfig.prefix || "!",
 
     support: {
         channels: process.env.SUPPORT_CHANNEL_IDS
