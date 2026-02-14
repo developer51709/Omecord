@@ -1,3 +1,5 @@
+import { logger } from "../core/logger.js";
+
 export default async function interactionCreate(interaction) {
     if (!interaction.isChatInputCommand()) return;
 
@@ -7,7 +9,7 @@ export default async function interactionCreate(interaction) {
     try {
         await command.execute(interaction);
     } catch (err) {
-        console.error(err);
+        logger.error("Command error:", err);
         interaction.reply({ content: "Error executing command", ephemeral: true });
     }
 }

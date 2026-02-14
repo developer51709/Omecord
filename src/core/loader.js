@@ -10,7 +10,7 @@ export async function loadEvents(client) {
         const event = await import(`../events/${file}`);
         const eventName = file.split(".")[0];
 
-        client.on(eventName, event.default);
+        client.on(eventName, event.default.bind(client));
         logger.info(`Loaded event: ${eventName}`);
     }
 }

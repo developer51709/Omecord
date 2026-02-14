@@ -6,6 +6,9 @@ export default {
         .setDescription("Replies with Pong!"),
 
     async execute(interaction) {
-        await interaction.reply("Pong!");
+        const shard = interaction.client.shardId ?? "0";
+        const version = interaction.client.version;
+
+        await interaction.reply(`Pong! (Shard ${shard}, v${version})`);
     }
 };

@@ -1,3 +1,5 @@
+import { logger } from "../core/logger.js";
+
 export default function ready() {
-    console.log(`Logged in as ${this.user.tag}`);
+    logger.success(`Logged in as ${this.user.tag} (Shard ${this.shardId})`);
 }

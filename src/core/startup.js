@@ -2,7 +2,7 @@ import { OmecordClient } from "./client.js";
 import { loadEvents, loadCommands } from "./loader.js";
 import { logger } from "./logger.js";
 import { printBanner } from "./banner.js";
-import config from "../config/config.json" assert { type: "json" };
+import { config } from "../config/config.js";
 
 export async function startBot() {
     printBanner();
@@ -15,8 +15,8 @@ export async function startBot() {
             "GuildMessages",
             "MessageContent"
         ],
-        shards: "auto",
-        shardCount: "auto"
+        shards: config.sharding.ids || "auto",
+        shardCount: config.sharding.count || "auto"
     });
 
     await loadEvents(client);
