@@ -1,7 +1,7 @@
 {
   "name": "omecord",
   "version": "0.1.0",
-  "description": "Omegle but in discord",
+  "description": "An Omegle inspired Discord bot that allows users to connect to a random VC with full voice, video, and screenshare support.",
   "type": "module",
   "dependencies": {
     "@discordjs/opus": "^0.10.0",
