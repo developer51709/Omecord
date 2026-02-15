@@ -5,3 +5,9 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
+
+[userenv]
+
+[userenv.shared]
+PREFIX = "+"
+MAIN_SERVER_ID = "1470878953743974587"
