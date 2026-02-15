@@ -11,6 +11,7 @@ import { PrototypeAudioSender } from "./PrototypeAudioSender.js";
 
 import { VideoPipeline } from "../video/VideoPipeline.js"; // stub/prototype
 import { ControlPanelManager } from "../control/ControlPanelManager.js";
+import { logger } from "../../core/logger.js"
 
 export class PrototypeSession {
     /**
@@ -105,8 +106,8 @@ export class PrototypeSession {
         // CONTROL PANEL
         await this.controlPanelManager.createPanel();
 
-        console.log(
-            `[PrototypeSession] Started session ${this.sessionId} ` +
+        logger.ptsession(
+            `Started session ${this.sessionId} ` +
             `(${this.vcA.guild.id} ↔ ${this.vcB.guild.id}) ` +
             `(mode: ${this.mode}, video: ${this.enableVideo ? "on" : "off"}, testMode: ${this.testMode})`
         );
@@ -159,6 +160,6 @@ export class PrototypeSession {
             } catch {}
         }
 
-        console.log(`[PrototypeSession] Stopped session ${this.sessionId}`);
+        logger.ptsession(`Stopped session ${this.sessionId}`);
     }
 }

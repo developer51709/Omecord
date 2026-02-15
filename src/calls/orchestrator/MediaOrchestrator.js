@@ -1,6 +1,7 @@
 // src/calls/orchestrator/MediaOrchestrator.js
 
 import { PrototypeSession } from "../prototype/PrototypeSession.js";
+import { logger } from "../../core/logger.js";
 
 /**
  * MediaOrchestrator
@@ -50,7 +51,7 @@ export class MediaOrchestrator {
             throw new Error(`Unsupported session mode: ${mode}`);
         }
 
-        console.log(`[MediaOrchestrator] Starting session in mode: ${mode}`);
+        logger.orchestrator(`Starting session in mode: ${mode}`);
 
         const session = new this.SessionClass(vcA, vcB, {
             mode,
@@ -63,12 +64,12 @@ export class MediaOrchestrator {
             await session.start();
             this.sessions.set(guildId, session);
 
-            console.log(
-                `[MediaOrchestrator] Session started for guild ${guildId} ` +
+            logger.orchestrator(
+                `Session started for guild ${guildId} ` +
                 `(audio: enabled, video: ${options.enableVideo ? "enabled" : "disabled"})`
             );
         } catch (err) {
-            console.error(`[MediaOrchestrator] Failed to start session:`, err);
+            logger.orchestrator(chalk.red(`Failed to start session:`, err));
             throw err;
         }
     }
@@ -81,7 +82,7 @@ export class MediaOrchestrator {
     stopSession(guildId) {
         const session = this.sessions.get(guildId);
         if (!session) {
-            console.log(`[MediaOrchestrator] No active session in guild ${guildId}`);
+            logger.orchestrator(`No active session in guild ${guildId}`);
             return false;
         }
 
@@ -89,10 +90,10 @@ export class MediaOrchestrator {
             session.stop();
             this.sessions.delete(guildId);
 
-            console.log(`[MediaOrchestrator] Session stopped for guild ${guildId}`);
+            logger.orchestrator(`Session stopped for guild ${guildId}`);
             return true;
         } catch (err) {
-            console.error(`[MediaOrchestrator] Error stopping session:`, err);
+            logger.orchestrator(chalk.red(`Error stopping session:`, err));
             return false;
         }
     }
@@ -119,15 +120,15 @@ export class MediaOrchestrator {
             try {
                 session.stop();
             } catch (err) {
-                console.error(
-                    `[MediaOrchestrator] Error stopping session for guild ${guildId}`,
+                logger.orchestrator(chalk.red(
+                    `Error stopping session for guild ${guildId}:`,
                     err
-                );
+                ));
             }
         }
 
         this.sessions.clear();
-        console.log("[MediaOrchestrator] All sessions stopped.");
+        logger.orchestrator(`All sessions stopped.`);
     }
 
     /**
@@ -135,7 +136,7 @@ export class MediaOrchestrator {
      */
     useSessionClass(SessionClass) {
         this.SessionClass = SessionClass;
-        console.log(`[MediaOrchestrator] Session class updated.`);
+        logger.orchestrator(`Session class updated.`);
     }
 }
 
