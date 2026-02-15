@@ -1,4 +1,5 @@
 modules = ["nodejs-20"]
+run = "node src/index.js"
 [agent]
 expertMode = true
 
