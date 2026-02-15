@@ -55,13 +55,17 @@ export class PrototypeSession {
         const connA = joinVoiceChannel({
             channelId: this.vcA.id,
             guildId: this.vcA.guild.id,
-            adapterCreator: this.vcA.guild.voiceAdapterCreator
+            adapterCreator: this.vcA.guild.voiceAdapterCreator,
+            selfDeaf: false,
+            selfMute: false
         });
 
         const connB = joinVoiceChannel({
             channelId: this.vcB.id,
             guildId: this.vcB.guild.id,
-            adapterCreator: this.vcB.guild.voiceAdapterCreator
+            adapterCreator: this.vcB.guild.voiceAdapterCreator,
+            selfDeaf: false,
+            selfMute: false
         });
 
         return { connA, connB };
