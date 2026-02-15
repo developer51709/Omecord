@@ -1,7 +1,13 @@
 import fs from "fs";
 import path from "path";
 import dotenv from "dotenv";
-import { logger } from "../core/logger.js";
+
+// Internal lightweight logger for config.js only
+const clog = {
+    info: (...msg) => console.log("[CONFIG]", ...msg),
+    warn: (...msg) => console.warn("[CONFIG]", ...msg),
+    error: (...msg) => console.error("[CONFIG]", ...msg)
+};
 
 // Load .env file
 dotenv.config();
@@ -13,12 +19,13 @@ let fileConfig = {};
 if (fs.existsSync(configPath)) {
     try {
         fileConfig = JSON.parse(fs.readFileSync(configPath, "utf8"));
+        clog.info("Loaded config.json");
     } catch (err) {
-        logger.error("Failed to parse config.json:", err);
+        clog.error("Failed to parse config.json:", err);
         process.exit(1);
     }
 } else {
-    logger.warn("config.json not found — relying on environment variables only");
+    clog.warn("config.json not found — relying on environment variables only");
 }
 
 // Merge .env + config.json
@@ -85,11 +92,11 @@ const required = {
 // Validate required fields
 for (const [key, envName] of Object.entries(required)) {
     if (!mergedConfig[key]) {
-        logger.error(`Missing required configuration: ${envName}`);
+        clog.error(`Missing required configuration: ${envName}`);
         process.exit(1);
     }
 }
 
-logger.info("Configuration loaded successfully");
+clog.info("Configuration loaded successfully");
 
 export const config = mergedConfig;
