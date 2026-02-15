@@ -1,0 +1,37 @@
+src/
+ ├── calls/
+ │    ├── orchestrator/
+ │    │      ├── MediaOrchestrator.js
+ │    │      ├── RoutingPolicy.js
+ │    │      └── SessionRegistry.js
+ │    │
+ │    ├── sessions/
+ │    │      ├── VCSession.js
+ │    │      └── SessionState.js
+ │    │
+ │    ├── audio/
+ │    │      ├── AudioPipeline.js
+ │    │      ├── AudioReceiver.js
+ │    │      ├── AudioMixer.js
+ │    │      ├── AudioSender.js
+ │    │      └── AudioUtils.js
+ │    │
+ │    ├── video/
+ │    │      ├── VideoPipeline.js
+ │    │      ├── VideoReceiver.js
+ │    │      ├── VideoRouter.js
+ │    │      ├── VideoSender.js
+ │    │      └── VideoUtils.js
+ │    │
+ │    ├── prototype/
+ │    │      ├── PrototypeSession.js
+ │    │      ├── PrototypeAudioReceiver.js
+ │    │      ├── PrototypeAudioMixer.js
+ │    │      └── PrototypeAudioSender.js
+ │    │
+ │    └── index.js
+ │
+ ├── commands/
+ ├── events/
+ ├── core/
+ └── config/
