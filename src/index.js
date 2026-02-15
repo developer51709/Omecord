@@ -2,6 +2,23 @@ import { ShardingManager } from "discord.js";
 import { logger } from "./core/logger.js";
 import { config } from "./config/config.js";
 import chalk from "chalk";
+import { registerShutdownHandlers } from "./core/shutdown.js";
+
+// ─────────────────────────────────────────────
+// Global Error Handlers (catch EVERYTHING)
+// ─────────────────────────────────────────────
+
+process.on("unhandledRejection", (reason, promise) => {
+    logger.error("UNHANDLED PROMISE REJECTION:", reason);
+});
+
+process.on("uncaughtException", (err) => {
+    logger.error("UNCAUGHT EXCEPTION:", err.stack || err);
+});
+
+process.on("warning", (warning) => {
+    logger.warn("NODE WARNING:", warning.stack || warning);
+});
 
 // ─────────────────────────────────────────────
 // Pretty header for startup
@@ -120,6 +137,9 @@ try {
     console.error(err);
     process.exit(1);
 }
+
+// Register global shutdown handlers
+registerShutdownHandlers(manager);
 
 // ─────────────────────────────────────────────
 // Shard Events
