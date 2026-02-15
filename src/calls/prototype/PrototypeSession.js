@@ -58,7 +58,8 @@ export class PrototypeSession {
             guildId: this.vcA.guild.id,
             adapterCreator: this.vcA.guild.voiceAdapterCreator,
             selfDeaf: false,
-            selfMute: false
+            selfMute: false,
+            group: this.sessionId
         });
 
         const connB = joinVoiceChannel({
@@ -66,8 +67,39 @@ export class PrototypeSession {
             guildId: this.vcB.guild.id,
             adapterCreator: this.vcB.guild.voiceAdapterCreator,
             selfDeaf: false,
-            selfMute: false
+            selfMute: false,
+            group: this.sessionId
         });
+
+        // Automatic mute check + correction
+        const enforceUnmute = async (conn, guild) => {
+            // Wait for Discord to finish syncing voice state
+            await new Promise(r => setTimeout(r, 500));
+
+            const me = guild.members.me;
+            if (!me) return;
+
+            // If the bot is self-muted, force unmute
+            if (me.voice.selfMute) {
+                try {
+                    conn.setSelfMute(false);
+                } catch (err) {
+                    console.error("Failed to unmute bot:", err);
+                }
+            }
+
+            // Re-check after a short delay (Discord sometimes re-applies mute)
+            await new Promise(r => setTimeout(r, 500));
+
+            if (me.voice.selfMute) {
+                try {
+                    conn.setSelfMute(false);
+                } catch {}
+            }
+        };
+
+        enforceUnmute(connA, this.vcA.guild);
+        enforceUnmute(connB, this.vcB.guild);
 
         return { connA, connB };
     }
