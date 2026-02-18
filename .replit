@@ -11,3 +11,5 @@ channel = "stable-25_05"
 [userenv.shared]
 PREFIX = "+"
 MAIN_SERVER_ID = "1470878953743974587"
+LOG_LEVEL = "debug"
+LOG_COLOR = "true"
